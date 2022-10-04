@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
+using Pomelo.EntityFrameworkCore.MySql;
+using System.Configuration;
 
 //public void ConfigureServices(IServiceCollection services)
 //{
@@ -20,14 +22,12 @@ using System.Security.Principal;
 //    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 //}
 
-
-
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("MariaDB");
 builder.Services.AddDbContext<Contexto>(options =>
-    options.UseMySql(
-                   builder.Configuration.GetConnectionString("DefaultConnection"),
-                   new MySqlServerVersion(new Version(8, 0, 30)))
-        );
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication("Identity.Login")

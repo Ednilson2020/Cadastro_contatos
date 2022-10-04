@@ -17,5 +17,6 @@ namespace Cadastro_contatos.DataBases
             Database.EnsureCreated();
         }
         public DbSet<Contatos> Contatos { get; set; }
+        public DbSet<login> login { get; set; }
     }
 }
